@@ -169,23 +169,109 @@ public class basic {
 
        
     }
+    public Node findMid(Node head){
+        Node slow=head;
+        Node fast=head;
+        while(fast!=null &&fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
 
+    }
+    public boolean checkPalindrome(){
+        if(head==null|| head.next==null){
+            return true;
+        }
+        //step-find mid
+         Node mid=findMid(head);
+        //step2-reverse 2nd hals
+        Node prev=null;
+        Node curr=mid;
+        Node next;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        Node right=prev;
+        Node left=head;
+        //step- check left & rigth
+        while(right!=null){
+            if(left.data!=right.data){
+                return false;
+            }
+            left=left.next;
+            right=right.next;
+        }
+        return true;
+    }
+    public static boolean isCycle(){
+        Node slow=head;
+        Node fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void removeCycle(){
+        Node slow=head;
+        Node fast=head;
+        boolean cycle=false;
+        while(fast!=null&& fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                cycle=true;
+                break;
+            }
+        }
+        if(cycle==false){
+            return;
+        }
+        slow=head;
+        Node prev=null;
+        while(slow!=fast){
+            prev=fast;
+            slow=slow.next;
+            fast=fast.next;
+        }
+        prev.next=null;
+    }
     public static void main(String[] args) {
         basic ll = new basic();
-        ll.addFirst(2);
-        ll.addFirst(1);
-        ll.addLast(4);
-        ll.addLast(5);
-        ll.add(2, 3);
-        ll.print();
-        // System.out.println("Size: " + size);
-        // ll.removeFirst();
-        // ll.removeLast();
+        // ll.addFirst(2);
+        // ll.addFirst(1);
+        // ll.addLast(4);
+        // ll.addLast(5);
+        // ll.add(2, 3);
         // ll.print();
-        // System.out.println(ll.Serch(3));
-        // ll.reverse();
-        // ll.print();
-         ll.deleteNth(3); ll.print();
-
+        // // System.out.println("Size: " + size);
+        // // ll.removeFirst();
+        // // ll.removeLast();
+        // // ll.print();
+        // // System.out.println(ll.Serch(3));
+        // // ll.reverse();
+        // // ll.print();
+        //  ll.deleteNth(3); ll.print();
+            // ll.addLast(1);
+            // ll.addLast(2);
+            // ll.addLast(3);
+            // ll.addLast(2);
+            // ll.addLast(1);
+            // System.out.println(ll.checkPalindrome());            
+            head=new Node(1);
+            Node temp=new Node(2);
+            head.next=temp;
+            head.next.next=new Node(3);
+            head.next.next.next=temp;
+            System.out.println(isCycle());
+            removeCycle();
+            System.out.println(isCycle());
     }
 }
